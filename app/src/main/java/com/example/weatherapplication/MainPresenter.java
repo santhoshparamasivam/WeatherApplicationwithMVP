@@ -4,12 +4,12 @@ import com.example.weatherapplication.model.WeatherModel;
 
 import java.util.ArrayList;
 
-public class MainPresenterImpl implements MainContract.presenter,MainContract.GetWeatherIntractor.OnFinishedListener {
+public class MainPresenter implements MainContract.presenter,MainContract.GetWeatherIntractor.OnFinishedListener {
 
     private MainContract.MainView mainView;
     private MainContract.GetWeatherIntractor getNoticeIntractor;
 
-    public MainPresenterImpl(MainContract.MainView mainView, MainContract.GetWeatherIntractor getNoticeIntractor) {
+    public MainPresenter(MainContract.MainView mainView, MainContract.GetWeatherIntractor getNoticeIntractor) {
         this.mainView = mainView;
         this.getNoticeIntractor = getNoticeIntractor;
     }

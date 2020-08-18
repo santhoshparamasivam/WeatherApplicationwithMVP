@@ -1,6 +1,7 @@
-package com.example.webview;
+package com.example.weatherapplication;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,20 +9,22 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.example.weatherapplication.model.WeatherModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.NotesViewHolder> implements Filterable {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WeatherViewHolder> {
 
 
 
-     List<ResponseModel.Datum> Data_list;
+     List<WeatherModel.List> Data_list;
     Context context;
 
-    List<ResponseModel.Datum> filter_list;
-    public RecyclerAdapter(Context context, ArrayList<ResponseModel.Datum> Data_list) {
+    List<WeatherModel.List> filter_list;
+    public RecyclerAdapter(Context context, ArrayList<WeatherModel.List> Data_list) {
         this.context=context;
         this.Data_list=Data_list;
         this.filter_list=Data_list;
@@ -29,17 +32,26 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.NotesV
     }
 
     @Override
-    public NotesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.notes_list_items, parent,false);
-        NotesViewHolder usersViewHolder = new NotesViewHolder(view);
+    public WeatherViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.weather_list_items, parent,false);
+        WeatherViewHolder usersViewHolder = new WeatherViewHolder(view);
         return usersViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(NotesViewHolder holder, final int position) {
-        holder.tv_name.setText("Name  "+(filter_list.get(position).getEmployeeName()));
-        holder.tv_age.setText("Age  "+(filter_list.get(position).getEmployeeAge()));
-        holder.tv_data.setText("Salary  "+(filter_list.get(position).getEmployeeSalary()));
+    public void onBindViewHolder(WeatherViewHolder holder, final int position) {
+        if (filter_list.get(position).getMain().getHumidity()!=null){
+            holder.tv_hum.setText(("Humidity "+filter_list.get(position).getMain().getHumidity()));
+        }
+        if (filter_list.get(position).getMain().getTemp()!=null){
+            holder.tv_temp.setText("Temperature "+ filter_list.get(position).getMain().getTemp());
+        }
+        if (filter_list.get(position).getWind().getSpeed()!=null){
+            holder.tv_wind.setText("Wind Speed "+ filter_list.get(position).getWind().getSpeed());
+        }
+        if (filter_list.get(position).getWeather()!=null){
+            holder.tv_rain.setText(filter_list.get(position).getWeather().get(0).getDescription());
+        }
 
     }
 
@@ -48,52 +60,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.NotesV
         return filter_list.size();
     }
 
+    class WeatherViewHolder extends RecyclerView.ViewHolder {
+        TextView tv_wind,tv_hum,tv_temp,tv_rain ;
 
-
-
-    class NotesViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_data,tv_name,tv_age ;
-
-        public NotesViewHolder(View itemView) {
+        public WeatherViewHolder(View itemView) {
             super(itemView);
-            tv_data =  itemView.findViewById(R.id.tv_data);
-            tv_name =  itemView.findViewById(R.id.tv_name);
-            tv_age =  itemView.findViewById(R.id.tv_age);
+            tv_wind =  itemView.findViewById(R.id.tv_wind);
+            tv_hum =  itemView.findViewById(R.id.tv_humidty);
+            tv_temp =  itemView.findViewById(R.id.tv_temp);
+            tv_rain =  itemView.findViewById(R.id.tv_rain);
 
 
 
         }
     }
 
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String charString = charSequence.toString();
-                if (charString.isEmpty()) {
-                    filter_list = Data_list;
-                } else {
-                    ArrayList<ResponseModel.Datum> filteredList = new ArrayList<>();
-                    for (ResponseModel.Datum data1 : filter_list) {
-                        if (data1.getEmployeeName().toLowerCase().contains(charString)) {
-                            filteredList.add(data1);
-                        }
-                    }
-                    filter_list = filteredList;
-                }
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = filter_list;
-                return filterResults;
-            }
 
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                filter_list = (ArrayList<ResponseModel.Datum>) filterResults.values;
-                notifyDataSetChanged();
-            }
-        };
-    }
 
 
 }

@@ -1,4 +1,4 @@
-package com.example.weatherapplication;
+package com.example.weatherapplication.Activity;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,13 +16,20 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.weatherapplication.MainContract;
+import com.example.weatherapplication.MainPresenter;
+import com.example.weatherapplication.R;
+import com.example.weatherapplication.RecyclerAdapter;
+import com.example.weatherapplication.retrofitcall.RetrofitApiCall;
 import com.example.weatherapplication.model.WeatherModel;
+import com.example.weatherapplication.sessionmanager.SessionKeys;
+import com.example.weatherapplication.sessionmanager.SessionManager;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("ALL")
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,MainContract.MainView{
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainContract.MainView {
 
     SessionManager sessionManager;
     RecyclerView recyclerview;
@@ -54,7 +61,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(HomeActivity.this);
         recyclerview.setLayoutManager(layoutManager);
-        presenter = new MainPresenterImpl(this, new RetrofitApiCall());
+        presenter = new MainPresenter(this, new RetrofitApiCall());
         presenter.requestDataFromServer();
 
     }
@@ -73,7 +80,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         switch (itemId) {
             case R.id.nav_item_two:
-                Intent intent=new Intent(HomeActivity.this,ProfileActivity.class);
+                Intent intent=new Intent(HomeActivity.this, ProfileActivity.class);
                 startActivity(intent);
 
                 break;

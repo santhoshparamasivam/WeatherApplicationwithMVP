@@ -1,7 +1,8 @@
-package com.example.weatherapplication;
+package com.example.weatherapplication.retrofitcall;
 
 import android.util.Log;
 
+import com.example.weatherapplication.MainContract;
 import com.example.weatherapplication.model.WeatherModel;
 
 import java.util.ArrayList;

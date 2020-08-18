@@ -1,4 +1,4 @@
-package com.example.weatherapplication;
+package com.example.weatherapplication.retrofitcall;
 
 import com.example.weatherapplication.model.WeatherModel;
 

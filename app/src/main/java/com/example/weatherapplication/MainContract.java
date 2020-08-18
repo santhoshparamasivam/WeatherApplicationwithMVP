@@ -1,4 +1,6 @@
-package com.example.webview;
+package com.example.weatherapplication;
+
+import com.example.weatherapplication.model.WeatherModel;
 
 import java.util.ArrayList;
 
@@ -14,16 +16,16 @@ public interface MainContract {
 
     interface MainView {
 
-        void setDataToRecyclerView(ArrayList<ResponseModel.Datum> noticeArrayList);
+        void setDataToRecyclerView(ArrayList<WeatherModel> weatherArrayList);
 
         void onResponseFailure(String throwable);
 
     }
 
-    interface GetNoticeIntractor {
+    interface GetWeatherIntractor {
 
         interface OnFinishedListener {
-            void onFinished(ArrayList<ResponseModel.Datum> noticeArrayList);
+            void onFinished(ArrayList<WeatherModel> weatherArrayList);
             void onFailure(String t);
         }
 
